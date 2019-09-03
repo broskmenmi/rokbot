@@ -1,0 +1,20 @@
+{
+  "name": "rokbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.1.0",
+    "nodemon": "^1.19.2",
+    "sequelize": "^5.18.1",
+    "sqlite3": "^4.1.0"
+  }
+}
