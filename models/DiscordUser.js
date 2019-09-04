@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/database');
 
 const DiscordUser = db.define('DiscordUser', {
-    DiscordUserId: {
+    Id: {
         type: Sequelize.STRING,
         primaryKey: true
     }

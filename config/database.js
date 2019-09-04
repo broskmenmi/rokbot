@@ -17,7 +17,10 @@ const DB = new sqlite3.Database(DB_PATH, function(err){
 });
 
 // Clear errorneus data
-//DB.all('DELETE FROM DiscordUsers /* WHERE DiscordUserId IS NULL*/');
+// DB.all('DROP TABLE IF EXISTS DiscordUsers /* WHERE DiscordUserId IS NULL*/');
+// DB.all('DROP TABLE IF EXISTS RokAccounts /* WHERE DiscordUserId IS NULL*/');
+// DB.all('DROP TABLE IF EXISTS Alliances /* WHERE DiscordUserId IS NULL*/');
+// DB.all('DROP TABLE IF EXISTS TROPPCONFIGURATION /* WHERE DiscordUserId IS NULL*/');
 DB.close();
 
 const Sequelize = require('sequelize');

@@ -22,8 +22,20 @@ client.on('ready', () => {
     console.log("I'm in!");
     console.log(client.user.username);
 });
+
 const DiscordUser = require('./models/DiscordUser');
+const RokAccount = require('./models/RokAccount');
+const Alliance = require('./models/Alliance');
+const TroopConfiguration = require('./models/TroopConfiguration');
+
+RokAccount.belongsTo(DiscordUser);
+RokAccount.belongsTo(Alliance);
+TroopConfiguration.belongsTo(RokAccount);
+
 DiscordUser.sync();
+RokAccount.sync();
+Alliance.sync();
+TroopConfiguration.sync();
 
 client.on('message', msg => {
     if (msg.author.id != client.user.id) {
@@ -45,24 +57,54 @@ function processCommand(receivedMessage)
     let arguments = splitCommand.slice(1) // All other words are arguments/parameters/options for the command
 
     if (primaryCommand == "tc" && arguments.length == 0) {
+        receivedMessage.channel.send("DISPLAY HELP HERE! Tag the user!");
+    } else if (primaryCommand == "tc" && arguments.length == 1) {
+        // !tc all
+        if (arguments[0] == "input")
+            startInput(receivedMessage);
 
-        DiscordUser.findAll()
-        .then(discordUsers => {
-            console.log(discordUsers);
+        switch (arguments[0])
+        {
+            case "show":
 
-            if (discordUsers.length > 0)
-            {
-                receivedMessage.channel.send(discordUsers.map(user => { return user.DiscordUserId + "\n"; }));
-            } else {
-                receivedMessage.channel.send("No troops recorded so far!");
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    } else if (primaryCommand == "tc" && arguments.length > 0) {
-        DiscordUser.create({ DiscordUserId: receivedMessage.author.id }).then().catch(err => console.log(err));
+            case "showAll":
+
+                exports.getAllTroops().then(troops => {
+                if (troops.length > 0)
+                {
+                    receivedMessage.channel.send(troops.map(user => { return user.id + "\n"; }));
+                } else {
+                    receivedMessage.channel.send("No troops recorded so far!");
+                }
+            });
+    
+            case "input": 
+                break;
+        
+            default: 
+        }
+
     } else {
         receivedMessage.channel.send("I don't understand the command.")
     }
+}
+
+exports.getAllTroops = function getAllTroops(currentUser)
+{
+    return new Promise((resolve, reject) => {
+        
+        DiscordUser.findAll()
+        .then(discordUsers => {
+            return resolve(discordUsers);
+        })
+        .catch(err => {
+            console.log(err);
+            return reject(err);
+        });
+
+    });
+}
+
+function startInput(receivedMessage) {
+    DiscordUser.create({ DiscordUserId: receivedMessage.author.id }).then().catch(err => console.log(err));
 }
