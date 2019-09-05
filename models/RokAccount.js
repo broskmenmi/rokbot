@@ -5,6 +5,9 @@ const RokAccount = db.define('RokAccount', {
     Name: {
         type: Sequelize.STRING,
         primaryKey: true
+    },
+    Rank: {
+        type: Sequelize.INTEGER
     }
 });
 
