@@ -6,6 +6,9 @@ const dotenv = require('dotenv').config();
 
 const token = process.env.DISCORD_BOT_SECRET;
 
+client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
+
 // db
 const db = require('./config/database');
 
@@ -33,19 +36,47 @@ TroopConfiguration.sync();
 
 // db end
 
+// Run the command loader
+["commands"].forEach(handler => {
+    require(`./handlers/${handler}`)(client);
+});
+
 client.on('ready', () => {
     console.log("I'm in!");
     console.log(client.user.username);
 });
 
-client.on('message', msg => {
-    if (msg.author.id != client.user.id) {
-        //msg.channel.send(msg.content.split('').reverse().join(''));
+client.on('message', async message => {
+    const prefix = "!";
 
-        if (msg.content.startsWith("!")) {
-            processCommand(msg)
-        }
-    }
+    if (message.author.bot) return;
+    if (!message.guild) return;
+    if (!message.content.startsWith(prefix)) return;
+
+    // If message.member is uncached, cache it.
+    if (!message.member) message.member = await message.guild.fetchMember(message);
+
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const cmd = args.shift().toLowerCase();
+    
+    if (cmd.length === 0) return;
+    
+    // Get the command
+    let command = client.commands.get(cmd);
+    // If none is found, try to find it by alias
+    if (!command) command = client.commands.get(client.aliases.get(cmd));
+
+    // If a command is finally found, run the command
+    if (command) 
+        command.run(client, message, args);
+
+    // if (msg.author.id != client.user.id) {
+    //     //msg.channel.send(msg.content.split('').reverse().join(''));
+
+    //     if (msg.content.startsWith("!")) {
+    //         processCommand(msg)
+    //     }
+    // }
 });
 
 client.login(token);
@@ -128,45 +159,60 @@ exports.startInput = function startInput(receivedMessage) {
     return new Promise((resolve, reject) => {
         
         var tempData = {};
-        tempData['AllianceName'] = 'SpartanZ';
-        tempData['Rank'] = '4';
-        tempData['TroppType'] = 'Cavalry';
-        tempData['TroppCount'] = '20000';
-        tempData['TroppRank'] = '4';
+
+        // ask for ingame name
+        tempData['RokAccountName'] = getInputFromUser('What\'s your ingame name?');
 
         // ask for rank
+        tempData['Rank'] = getInputFromUser('What\'s your ingame rank?');
 
         // ask for t5 cav
+        tempData['TroppType'] = 'Cavalry';
+        tempData['TroppRank'] = '5';        
+        tempData['TroppCount'] = getInputFromUser('What\'s your Cavalry T5 count?');
+        exports.save(tempData);
 
         // ask for t5 infantry
+        tempData['TroppType'] = 'Infantry';
+        tempData['TroppRank'] = '5';        
+        tempData['TroppCount'] = getInputFromUser('What\'s your Infantry T5 count?');
+        exports.save(tempData);
 
         // ask for t5 archery
+        tempData['TroppType'] = 'Archery';
+        tempData['TroppRank'] = '5';        
+        tempData['TroppCount'] = getInputFromUser('What\'s your Archery T5 count?');
+        exports.save(tempData);
 
         // ask for t5 siege
+        tempData['TroppType'] = 'Siege';
+        tempData['TroppRank'] = '5';        
+        tempData['TroppCount'] = getInputFromUser('What\'s your Siege T5 count?');
+        exports.save(tempData);
 
         // ask for t4 cavalry
+        tempData['TroppType'] = 'Cavalry';
+        tempData['TroppRank'] = '4';        
+        tempData['TroppCount'] = getInputFromUser('What\'s your Cavalry T4 count?');
+        exports.save(tempData);
         
         // ask for t4 infantry
-        
-        // ask for t5 siege
-        
-        // ask for t5 siege
+        tempData['TroppType'] = 'Infantry';
+        tempData['TroppRank'] = '4';        
+        tempData['TroppCount'] = getInputFromUser('What\'s your Infantry T4 count?');
+        exports.save(tempData);
 
+        // ask for t4 archery
+        tempData['TroppType'] = 'Archery';
+        tempData['TroppRank'] = '4';        
+        tempData['TroppCount'] = getInputFromUser('What\'s your Archery T4 count?');
+        exports.save(tempData);
 
-        sequelize.transaction(t =>
-            Project.create(project, {
-                include: [{
-                    model: User,
-                    as: 'Users',
-                }],
-                transaction: t,
-            })
-        ).then(
+        // ask for t4 siege
+        tempData['TroppType'] = 'Siege';
+        tempData['TroppRank'] = '4';        
+        tempData['TroppCount'] = getInputFromUser('What\'s your Siege T4 count?');
+        exports.save(tempData);
 
-        ).catch(err => { 
-            return reject(err);
-        });
     });
-
-    //DiscordUser.create({ DiscordUserId: receivedMessage.author.id }).then().catch(err => console.log(err));
 }
