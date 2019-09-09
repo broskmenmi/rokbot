@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const { sequelize } = require('../config/database');
 
-const Alliance = db.define('Alliance', {
+const Alliance = sequelize.define('Alliance', {
     Name: { type: Sequelize.STRING, primaryKey: true },
     ShortName: { type: Sequelize.STRING }
 });

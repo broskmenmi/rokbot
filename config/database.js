@@ -24,8 +24,17 @@ const DB = new sqlite3.Database(DB_PATH, function(err){
 DB.close();
 
 const Sequelize = require('sequelize');
-
-module.exports = new Sequelize({
+const sequelize =  new Sequelize({
     dialect: 'sqlite',
     storage: DB_PATH
 });
+
+module.exports = {
+    sequelize: new Sequelize({
+        dialect: 'sqlite',
+        storage: DB_PATH
+    }),
+    Db: DB
+};
+
+//module.exports = DB;

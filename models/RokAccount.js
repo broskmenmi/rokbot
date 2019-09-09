@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const { sequelize } = require('../config/database');
 
-const RokAccount = db.define('RokAccount', {
+const RokAccount = sequelize.define('RokAccount', {
     Name: {
         type: Sequelize.STRING,
         primaryKey: true

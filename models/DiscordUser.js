@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const { sequelize } = require('../config/database');
 
-const DiscordUser = db.define('DiscordUser', {
+const DiscordUser = sequelize.define('DiscordUser', {
     Id: {
         type: Sequelize.STRING,
         primaryKey: true

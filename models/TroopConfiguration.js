@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const { sequelize } = require('../config/database');
 
-const TroopConfiguration = db.define('TroopConfiguration', {
+const TroopConfiguration = sequelize.define('TroopConfiguration', {
     Type: { type: Sequelize.INTEGER, primaryKey: true  },
     Rank: { type: Sequelize.INTEGER, primaryKey: true },
     Count: { type: Sequelize.INTEGER, primaryKey: true },

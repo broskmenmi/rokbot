@@ -191,16 +191,16 @@
 
 
 // New
-const { CommandoClient } = require('discord.js-commando');
+const { CommandoClient, Command } = require('discord.js-commando');
 const path = require('path');
 
 const dotenv = require('dotenv').config();
 const token = process.env.DISCORD_BOT_SECRET;
 
 // db
-const db = require('./config/database');
+const { sequelize, Db } = require('./config/database');
 
-db.authenticate()
+sequelize.authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');
     })
@@ -226,7 +226,7 @@ TroopConfiguration.sync();
 
 
 const client = new CommandoClient({
-	commandPrefix: '?',
+	commandPrefix: '!',
 	owner: '400137876894908416'
 });
 
@@ -241,10 +241,16 @@ client.registry
 	.registerDefaultCommands()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
+
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
-	client.user.setActivity('with Commando');
+	client.user.setActivity('with himself!');
+
+	let channels = client.channels.filter(chan =>{chan.type == 'text' });
+	console.log(channels.size);
+	channels.map(chan => { chan.send('BEHOLD! RokBOT HAS ARRIVED!'); console.log(chan.id); });
 });
+
 
 client.on('error', console.error);
 
