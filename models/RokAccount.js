@@ -8,6 +8,9 @@ const RokAccount = sequelize.define('RokAccount', {
     },
     Rank: {
         type: Sequelize.INTEGER
+    },
+    MaxRallySize: {
+        type: Sequelize.INTEGER
     }
 });
 

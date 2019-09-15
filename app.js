@@ -126,71 +126,7 @@
 //     });
 // }
 
-// exports.startInput = function startInput(receivedMessage) {
-//     return new Promise((resolve, reject) => {
-        
-//         var tempData = {};
 
-//         // ask for ingame name
-//         tempData['RokAccountName'] = getInputFromUser('What\'s your ingame name?');
-
-//         // ask for rank
-//         tempData['Rank'] = getInputFromUser('What\'s your ingame rank?');
-
-//         // ask for t5 cav
-//         tempData['TroppType'] = 'Cavalry';
-//         tempData['TroppRank'] = '5';        
-//         tempData['TroppCount'] = getInputFromUser('What\'s your Cavalry T5 count?');
-//         exports.save(tempData);
-
-//         // ask for t5 infantry
-//         tempData['TroppType'] = 'Infantry';
-//         tempData['TroppRank'] = '5';        
-//         tempData['TroppCount'] = getInputFromUser('What\'s your Infantry T5 count?');
-//         exports.save(tempData);
-
-//         // ask for t5 archery
-//         tempData['TroppType'] = 'Archery';
-//         tempData['TroppRank'] = '5';        
-//         tempData['TroppCount'] = getInputFromUser('What\'s your Archery T5 count?');
-//         exports.save(tempData);
-
-//         // ask for t5 siege
-//         tempData['TroppType'] = 'Siege';
-//         tempData['TroppRank'] = '5';        
-//         tempData['TroppCount'] = getInputFromUser('What\'s your Siege T5 count?');
-//         exports.save(tempData);
-
-//         // ask for t4 cavalry
-//         tempData['TroppType'] = 'Cavalry';
-//         tempData['TroppRank'] = '4';        
-//         tempData['TroppCount'] = getInputFromUser('What\'s your Cavalry T4 count?');
-//         exports.save(tempData);
-        
-//         // ask for t4 infantry
-//         tempData['TroppType'] = 'Infantry';
-//         tempData['TroppRank'] = '4';        
-//         tempData['TroppCount'] = getInputFromUser('What\'s your Infantry T4 count?');
-//         exports.save(tempData);
-
-//         // ask for t4 archery
-//         tempData['TroppType'] = 'Archery';
-//         tempData['TroppRank'] = '4';        
-//         tempData['TroppCount'] = getInputFromUser('What\'s your Archery T4 count?');
-//         exports.save(tempData);
-
-//         // ask for t4 siege
-//         tempData['TroppType'] = 'Siege';
-//         tempData['TroppRank'] = '4';        
-//         tempData['TroppCount'] = getInputFromUser('What\'s your Siege T4 count?');
-//         exports.save(tempData);
-
-//     });
-// }
-
-
-
-// New
 const { CommandoClient, Command } = require('discord.js-commando');
 const path = require('path');
 
@@ -198,7 +134,7 @@ const dotenv = require('dotenv').config();
 const token = process.env.DISCORD_BOT_SECRET;
 
 // db
-const { sequelize, Db } = require('./config/database');
+const { sequelize, DB } = require('./config/database');
 
 sequelize.authenticate()
     .then(() => {
@@ -209,13 +145,16 @@ sequelize.authenticate()
     });
 
 const DiscordUser = require('./models/DiscordUser');
-const RokAccount = require('./models/RokAccount');
 const Alliance = require('./models/Alliance');
+const RokAccount = require('./models/RokAccount');
 const TroopConfiguration = require('./models/TroopConfiguration');
+
+//sequelize.drop();
 
 RokAccount.belongsTo(DiscordUser);
 RokAccount.belongsTo(Alliance);
-TroopConfiguration.belongsTo(RokAccount);
+RokAccount.hasMany(TroopConfiguration, {as: 'army', foreignKey: 'RokAccountName'});
+
 
 DiscordUser.sync();
 RokAccount.sync();
@@ -245,10 +184,8 @@ client.registry
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
 	client.user.setActivity('with himself!');
-
-	let channels = client.channels.filter(chan =>{chan.type == 'text' });
-	console.log(channels.size);
-	channels.map(chan => { chan.send('BEHOLD! RokBOT HAS ARRIVED!'); console.log(chan.id); });
+	let channels = client.channels.filter(c => c.type == 'text');
+	channels.map(chan => { chan.send('BEHOLD! RokBOT HAS ARRIVED!'); });
 });
 
 
