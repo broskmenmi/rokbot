@@ -88,24 +88,24 @@ module.exports = class RokCommands extends Command {
         RokAccount.MaxRallySize = rallySize;
         RokAccount.AllianceName = message.guild.name;
         
-        sequelize.transaction({type: Sequelize.Transaction.TYPES.IMMEDIATE}, t => {
+        // sequelize.transaction({type: Sequelize.Transaction.TYPES.IMMEDIATE}, t => {
             
             return Promise.all([
-                DiscordUser.upsert(DiscordUser, {transaction: t}),
-                Alliance.upsert(Alliance, {transaction: t}),
-                RokAccount.upsert(RokAccount, {transaction: t}),
-                TroopConfiguration.upsert(this.getTroopConfiguration('Cavalry', 5, t5CavalryCount, nickName), { transaction: t }),
-                TroopConfiguration.upsert(this.getTroopConfiguration('Infantry', 5, t5InfantryCount, nickName), { transaction: t }),
-                TroopConfiguration.upsert(this.getTroopConfiguration('Archery', 5, t5ArcheryCount, nickName), { transaction: t }),
-                TroopConfiguration.upsert(this.getTroopConfiguration('Siege', 5, t5SiegeCount, nickName), { transaction: t }),
-                TroopConfiguration.upsert(this.getTroopConfiguration('Cavalry', 4, t4CavalryCount, nickName), { transaction: t }),
-                TroopConfiguration.upsert(this.getTroopConfiguration('Infantry', 4, t4InfantryCount, nickName), { transaction: t }),
-                TroopConfiguration.upsert(this.getTroopConfiguration('Archery', 4, t4ArcheryCount, nickName), { transaction: t }),
-                TroopConfiguration.upsert(this.getTroopConfiguration('Siege', 4, t4SiegeCount, nickName), { transaction: t })
+                DiscordUser.upsert(DiscordUser),
+                Alliance.upsert(Alliance),
+                RokAccount.upsert(RokAccount),
+                TroopConfiguration.upsert(this.getTroopConfiguration('Cavalry', 5, t5CavalryCount, nickName)),
+                TroopConfiguration.upsert(this.getTroopConfiguration('Infantry', 5, t5InfantryCount, nickName)),
+                TroopConfiguration.upsert(this.getTroopConfiguration('Archery', 5, t5ArcheryCount, nickName)),
+                TroopConfiguration.upsert(this.getTroopConfiguration('Siege', 5, t5SiegeCount, nickName)),
+                TroopConfiguration.upsert(this.getTroopConfiguration('Cavalry', 4, t4CavalryCount, nickName)),
+                TroopConfiguration.upsert(this.getTroopConfiguration('Infantry', 4, t4InfantryCount, nickName)),
+                TroopConfiguration.upsert(this.getTroopConfiguration('Archery', 4, t4ArcheryCount, nickName)),
+                TroopConfiguration.upsert(this.getTroopConfiguration('Siege', 4, t4SiegeCount, nickName))
             ]);
 
 
-        }).then(() => { console.log('Success!') }).catch(err => { console.log("Error: " + err) });
+        // }).then(() => { console.log('Success!') }).catch(err => { console.log("Error: " + err) });
     }
 
     getTroopConfiguration(type, rank, count, nickName) {
