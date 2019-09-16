@@ -151,14 +151,14 @@ const TroopConfiguration = require('./models/TroopConfiguration');
 
 //sequelize.drop();
 
-RokAccount.belongsTo(DiscordUser);
-RokAccount.belongsTo(Alliance);
+DiscordUser.hasOne(RokAccount, {as: 'accountRleation', foreignKey: 'DiscordUserId'});
+Alliance.hasOne(RokAccount, {as: 'allianceMember', foreignKey: 'AllianceName'});
 RokAccount.hasMany(TroopConfiguration, {as: 'army', foreignKey: 'RokAccountName'});
 
 
 DiscordUser.sync();
-RokAccount.sync();
 Alliance.sync();
+RokAccount.sync();
 TroopConfiguration.sync();
 
 // db end
