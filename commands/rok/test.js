@@ -1,5 +1,4 @@
 const { Command } = require('discord.js-commando');
-const { sequelize } = require('../../config/database')
 
 module.exports = class RokCommands extends Command {
     constructor(client) {

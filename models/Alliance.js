@@ -1,9 +1,28 @@
-const Sequelize = require('sequelize');
-const { sequelize } = require('../config/database');
+'use strict';
 
-const Alliance = sequelize.define('Alliance', {
-    Name: { type: Sequelize.STRING, primaryKey: true },
-    ShortName: { type: Sequelize.STRING }
-});
+const { BaseModel } = require('./BaseModel');
 
-module.exports = Alliance;
+class Alliance extends BaseModel {
+  static get tableName() {
+    return 'alliances';
+  }
+
+  static get relationMappings() {
+
+    return {
+      rokAccounts: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: 'RokAccount',
+        join: {
+          from: 'alliances.name',
+          to: 'rokAccounts.allianceName'
+        }
+      }
+
+    };
+  }
+}
+
+module.exports = {
+    Alliance
+};

@@ -1,19 +1,27 @@
-const Sequelize = require('sequelize');
-const { sequelize } = require('../config/database');
+const { BaseModel } = require('./BaseModel');
 
-const TroopConfiguration = sequelize.define('TroopConfiguration', {
-    Type: { type: Sequelize.INTEGER, primaryKey: true  },
-    Rank: { type: Sequelize.INTEGER, primaryKey: true },
-    Count: { type: Sequelize.INTEGER, primaryKey: false },
-    RokAccountName: { type: Sequelize.STRING, primaryKey: true }
-},
-{
-    indexes: [
-        {
-            unique: true,
-            fields: ['Type', 'Rank', 'RokAccountName']
+class TroopConfiguration extends BaseModel {
+
+  static get tableName() {
+    return 'troopConfigurations';
+  }
+
+  static get relationMappings() {
+      
+    return {
+      army_governor: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: 'RokAccount',
+        join: {
+          from: 'troopConfigurations.rokAccountName',
+          to: 'rokAccounts.name'
         }
-    ]
-});
+      }
 
-module.exports = TroopConfiguration;
+    };
+  }
+}
+
+module.exports = {
+    TroopConfiguration
+};

@@ -1,17 +1,45 @@
-const Sequelize = require('sequelize');
-const { sequelize } = require('../config/database');
+'use strict';
 
-const RokAccount = sequelize.define('RokAccount', {
-    Name: {
-        type: Sequelize.STRING,
-        primaryKey: true
-    },
-    Rank: {
-        type: Sequelize.INTEGER
-    },
-    MaxRallySize: {
-        type: Sequelize.INTEGER
-    }
-});
+const { BaseModel } = require('./BaseModel');
 
-module.exports = RokAccount;
+class RokAccount extends BaseModel {
+
+  static get tableName() {
+    return 'rokAccounts';
+  }
+
+  static get relationMappings() {
+
+    return {
+      discordUser: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: 'DiscordUser',
+        join: {
+          from: 'rokAccounts.discordUserId',
+          to: 'discordUsers.id'
+        }
+      },
+      alliance: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: 'Alliance',
+        join: {
+          from: 'rokAccounts.allianceName',
+          to: 'alliances.name'
+        }
+      },
+      army: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: 'TroopConfiguration',
+        join: {
+          from: 'rokAccounts.name',
+          to: 'troopConfigurations.rokAccountName'
+        }
+      }
+
+    };
+  }
+}
+
+module.exports = {
+  RokAccount
+};

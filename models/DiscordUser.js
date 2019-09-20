@@ -1,11 +1,29 @@
-const Sequelize = require('sequelize');
-const { sequelize } = require('../config/database');
+'use strict';
 
-const DiscordUser = sequelize.define('DiscordUser', {
-    Id: {
-        type: Sequelize.STRING,
-        primaryKey: true
-    }
-});
+const { BaseModel } = require('./BaseModel');
 
-module.exports = DiscordUser;
+class DiscordUser extends BaseModel {
+
+  static get tableName() {
+    return 'discordUsers';
+  }
+
+  static get relationMappings() {
+
+    return {
+      rokAccounts: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: 'RokAccount',
+        join: {
+          from: 'discordUsers.id',
+          to: 'rokAccounts.discordUserId'
+        }
+      }
+
+    };
+  }
+}
+
+module.exports = {
+    DiscordUser
+};
