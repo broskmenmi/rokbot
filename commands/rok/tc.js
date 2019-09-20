@@ -106,31 +106,26 @@ module.exports = class RokCommands extends Command {
         var allianceData = {};
         allianceData.Name = message.guild.name;
         const allianceGraph = Alliance.query().upsertGraph(allianceData);
-
+        console.log(allianceGraph);
+        
         var blob = {};
-        // blob.DiscordUser.id = message.author.id;
-        // blob.DiscordUser.rokAccounts[0].DiscordUserId = blob.DiscordUser.id;
-        // blob.DiscordUser.rokAccounts[0].Name = nickName;
-        // blob.DiscordUser.rokAccounts[0].Rank = rank;
-        // blob.DiscordUser.rokAccounts[0].MaxRallySize = rallySize;
-        // blob.DiscordUser.rokAccounts[0].AllianceName = message.guild.name;
-        // blob.DiscordUser.rokAccounts[0].AllianceName = message.guild.name;
-
+        
         blob.discordUser = {};
         blob.discordUser.id = message.author.id;
         
         blob.alliance = {};
         blob.alliance.name = message.guild.name;
         
+        
         blob.army = {};
         blob.army[0] = this.getTroopConfiguration('Cavalry', 5, t5CavalryCount, nickName);
-        blob.army[0] = this.getTroopConfiguration('Infantry', 5, t5InfantryCount, nickName);
-        blob.army[0] = this.getTroopConfiguration('Archery', 5, t5ArcheryCount, nickName);
-        blob.army[0] = this.getTroopConfiguration('Siege', 5, t5SiegeCount, nickName);
-        blob.army[0] = this.getTroopConfiguration('Cavalry', 4, t4CavalryCount, nickName);
-        blob.army[0] = this.getTroopConfiguration('Infantry', 4, t4InfantryCount, nickName);
-        blob.army[0] = this.getTroopConfiguration('Archery', 4, t4ArcheryCount, nickName);
-        blob.army[0] = this.getTroopConfiguration('Siege', 4, t4SiegeCount, nickName);
+        // blob.army[0] = this.getTroopConfiguration('Infantry', 5, t5InfantryCount, nickName);
+        // blob.army[0] = this.getTroopConfiguration('Archery', 5, t5ArcheryCount, nickName);
+        // blob.army[0] = this.getTroopConfiguration('Siege', 5, t5SiegeCount, nickName);
+        // blob.army[0] = this.getTroopConfiguration('Cavalry', 4, t4CavalryCount, nickName);
+        // blob.army[0] = this.getTroopConfiguration('Infantry', 4, t4InfantryCount, nickName);
+        // blob.army[0] = this.getTroopConfiguration('Archery', 4, t4ArcheryCount, nickName);
+        // blob.army[0] = this.getTroopConfiguration('Siege', 4, t4SiegeCount, nickName);
         const troopGraph = RokAccount.query().upsertGraph(blob);
         console.log(troopGraph);
     }
