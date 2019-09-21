@@ -8,7 +8,6 @@ exports.up = function(knex) {
 
         t.dateTime('createdAt').notNull();
         t.dateTime('updatedAt').nullable();
-        t.dateTime('deletedAt').nullable();
     });
 };
 

@@ -6,6 +6,10 @@ class TroopConfiguration extends BaseModel {
     return 'troopConfigurations';
   }
 
+  static get idColumn() {
+    return ['type', 'rank', 'rokAccountName'];
+  }
+
   static get relationMappings() {
       
     return {

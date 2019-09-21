@@ -8,6 +8,10 @@ class RokAccount extends BaseModel {
     return 'rokAccounts';
   }
 
+  static get idColumn() {
+    return 'name';
+  }
+
   static get relationMappings() {
 
     return {

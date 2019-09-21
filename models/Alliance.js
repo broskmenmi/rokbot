@@ -7,6 +7,10 @@ class Alliance extends BaseModel {
     return 'alliances';
   }
 
+  static get idColumn() {
+    return 'name';
+  }
+
   static get relationMappings() {
 
     return {
