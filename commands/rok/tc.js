@@ -143,13 +143,13 @@ module.exports = class RokCommands extends Command {
             discordUser: { id: '400137876894908416' },
             alliance: { name: 'SpartanZ test server' },
             army:
-            {
+            [{
                 type: 'Cavalry',
                 rank: 5,
                 count: 1212,
                 //rokAccountName: 'asdf',
                 updatedAt: '2019-09-21T20:33:03.856Z'
-            },
+            }],
             createdAt: '2019-09-21T20:33:03.824Z'
         }, { relate: true, insertMissing: true });
 
