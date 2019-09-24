@@ -5,13 +5,13 @@ class BaseModel extends Model {
     return [__dirname];
   }
 
-  $beforeInsert() {
-    this.createdAt = new Date().toISOString();
-  }
+  // $beforeInsert() {
+  //   this.createdAt = new Date().toISOString();
+  // }
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
-  }
+  // $beforeUpdate() {
+  //   this.updatedAt = new Date().toISOString();
+  // }
 }
 
 module.exports = {

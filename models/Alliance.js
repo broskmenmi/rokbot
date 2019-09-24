@@ -7,10 +7,6 @@ class Alliance extends BaseModel {
     return 'alliances';
   }
 
-  static get idColumn() {
-    return 'name';
-  }
-
   static get relationMappings() {
 
     return {
@@ -18,8 +14,8 @@ class Alliance extends BaseModel {
         relation: BaseModel.HasManyRelation,
         modelClass: 'RokAccount',
         join: {
-          from: 'alliances.name',
-          to: 'rokAccounts.allianceName'
+          from: 'alliances.id',
+          to: 'rokAccounts.allianceId'
         }
       }
 

@@ -8,10 +8,6 @@ class RokAccount extends BaseModel {
     return 'rokAccounts';
   }
 
-  static get idColumn() {
-    return 'name';
-  }
-
   static get relationMappings() {
 
     return {
@@ -27,16 +23,16 @@ class RokAccount extends BaseModel {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: 'Alliance',
         join: {
-          from: 'rokAccounts.allianceName',
-          to: 'alliances.name'
+          from: 'rokAccounts.allianceId',
+          to: 'alliances.id'
         }
       },
       army: {
         relation: BaseModel.HasManyRelation,
         modelClass: 'TroopConfiguration',
         join: {
-          from: 'rokAccounts.name',
-          to: 'troopConfigurations.rokAccountName'
+          from: 'rokAccounts.id',
+          to: 'troopConfigurations.rokAccountId'
         }
       }
 
