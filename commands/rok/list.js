@@ -1,72 +1,37 @@
-// const { Command } = require('discord.js-commando');
-// const { sequelize } = require('../../config/database');
-// const  AsciiTable  = require('ascii-table');
+const { Command } = require('discord.js-commando');
 
-// module.exports = class RokCommands extends Command {
-//     constructor(client) {
-//         super(client, {
-//             name: 'list',
-//             aliases: ['listtroopcount', 'whatdowehave', 'givemethedetails'],
-//             group: 'rok',
-//             memberName: 'list',
-//             description: 'Replies with the text you provide.',
+module.exports = class ListRokCommands extends Command {
+    constructor(client) {
+        super(client, {
+            name: 'ltc',
+            aliases: ['listtroopcount', 'isitwartimeyet'],
+            group: 'rok',
+            memberName: 'ltc',
+            description: 'Replies with the text you provide.',
+        });
+    }
 
-//         });
-//     }
+    async run(message) {
+        const { DiscordUser } = require('../../models/DiscordUser');
+        
+        const  AsciiTable = require('ascii-table');
 
-//     run(message) {
-//         this.getAllTroops(message.author.id).then(x => {
-//             message.say(x.map());
-//         });
-//     }
+        var discordUser = {};
 
-//     buildTable(troops) {
-//         return new Promise((resolve, reject) => {
-//             // build table
-//             var table = new AsciiTable('Troops');
-//             table.setHeading('PlayerName', 'Rank', 'TimeZone', 'Max Rally count', 'T5 Cav', 'T5 Inf');
-            
-//             troops.forEach(troopConfiguration => {
-//                 table.addRow(troopConfiguration.RokAccountName, troopConfiguration.RokAccount.Rank, 'USA', '1000 000', '2000000', '343434' )
-//             });
-//             // return resolve(table);
-//             // if err
-//             // return reject(err)
-//         });
-//     }
+        discordUser.userId = message.author.id;
 
-//     getAllTroops(currentUser) {
-//         return new Promise((resolve, reject) => {
+        const people = await DiscordUser.query().eager('rokAccounts.[army]');
+        
+        var table = new AsciiTable('TroopConfiguration')
+        
+        table.setHeading('', 'Name', 'Age')
+        
+        people.forEach(item => {
+            table.addRow(item.rokAccounts[0].name, '','')
+        });
 
-//             let DiscordUser = require('../../models/DiscordUser');
-//             let RokAccount = require('../../models/RokAccount');
-//             let Alliance = require('../../models/Alliance');
-//             let TroopConfiguration = require('../../models/TroopConfiguration');
+        message.say(JSON.stringify(output));
+        message.say(table.toString());
 
-//             var whereClause = {};
-
-//             if (currentUser)
-//                 whereClause['Id'] = currentUser;
-
-//             // TroopConfiguration.findAll({
-//             //     include: [
-//             //         {
-//             //             model: RokAccount,
-//             //             include: [
-//             //                 {
-//             //                     model: DiscordUser,
-//             //                     where: whereClause
-//             //                 }
-//             //             ]
-//             //         }
-//             //     ]
-//             // }).then(troops => {
-//             //     return resolve(troops);
-//             // }).catch(err => {
-//             //     console.log(err);
-//             //     return reject(err);
-//             // });
-
-//         });
-//     }
-// };
+    }
+};

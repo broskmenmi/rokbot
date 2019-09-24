@@ -76,7 +76,6 @@ module.exports = class RokCommands extends Command {
 
         var discordUser = {};
         discordUser.userId = message.author.id;
-        discordUser.id = 1;
         
         discordUser.rokAccounts = [];
         
