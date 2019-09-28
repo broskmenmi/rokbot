@@ -13,24 +13,25 @@ module.exports = class ListRokCommands extends Command {
 
     async run(message) {
         const { DiscordUser } = require('../../models/DiscordUser');
-        
+
         const  AsciiTable = require('ascii-table');
 
         var discordUser = {};
 
         discordUser.userId = message.author.id;
 
-        const people = await DiscordUser.query().eager('rokAccounts.[army]');
+        const people = await DiscordUser.query().eager('rokAccounts');
         
-        var table = new AsciiTable('TroopConfiguration')
-        
+        var table = new AsciiTable(`The mighty army of ${message.guild.name}`)
+
         table.setHeading('', 'Name', 'Age')
         
-        people.forEach(item => {
-            table.addRow(item.rokAccounts[0].name, '','')
-        });
+        // people.forEach(item => {
+        //     table.addRow(item.rokAccounts[0].name, '','')
+        // });
 
-        message.say(JSON.stringify(output));
+        message.say(JSON.stringify(people));
+
         message.say(table.toString());
 
     }

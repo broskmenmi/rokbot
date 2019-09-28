@@ -14,7 +14,7 @@ exports.up = function(knex) {
 
         //t.string('allianceId').notNull();
         t
-        .integer('allianceId')
+        .string('allianceId')
         .unsigned()
         .references('id')
         .inTable('alliances')

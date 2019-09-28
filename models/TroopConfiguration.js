@@ -6,9 +6,9 @@ class TroopConfiguration extends BaseModel {
     return 'troopConfigurations';
   }
 
-  // static get idColumn() {
-  //   return ['rokAccountId', 'type', 'rank'];
-  // }
+  static get idColumn() {
+    return ['rokAccountId', 'type', 'rank'];
+  }
 
   static get relationMappings() {
       
@@ -17,8 +17,8 @@ class TroopConfiguration extends BaseModel {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: 'RokAccount',
         join: {
-          from: 'troopConfigurations.id',
-          to: 'rokAccounts.id'
+          from: 'troopConfigurations.rokAccountId',
+          to: 'rokAccounts.name'
         }
       }
 

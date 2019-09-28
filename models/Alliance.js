@@ -3,6 +3,7 @@
 const { BaseModel } = require('./BaseModel');
 
 class Alliance extends BaseModel {
+
   static get tableName() {
     return 'alliances';
   }
@@ -14,8 +15,8 @@ class Alliance extends BaseModel {
         relation: BaseModel.HasManyRelation,
         modelClass: 'RokAccount',
         join: {
-          from: 'alliances.id',
-          to: 'rokAccounts.allianceId'
+          from: 'rokAccounts.allianceId',
+          to: 'alliances.id'
         }
       }
 

@@ -8,8 +8,12 @@ class RokAccount extends BaseModel {
     return 'rokAccounts';
   }
 
-  static get relationMappings() {
+  static get idColumn() {
+    return ['name'];
+  }
 
+  static get relationMappings() {
+    
     return {
       discordUser: {
         relation: BaseModel.BelongsToOneRelation,
@@ -31,7 +35,7 @@ class RokAccount extends BaseModel {
         relation: BaseModel.HasManyRelation,
         modelClass: 'TroopConfiguration',
         join: {
-          from: 'rokAccounts.id',
+          from: 'rokAccounts.name',
           to: 'troopConfigurations.rokAccountId'
         }
       }
