@@ -5,7 +5,7 @@ exports.up = function(knex) {
         t.string('name').notNull();
         //t.string('discordUserId').notNull();
         t
-        .integer('discordUserId')
+        .string('discordUserId')
         .unsigned()
         .references('id')
         .inTable('discordUsers')

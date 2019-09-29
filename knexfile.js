@@ -1,6 +1,7 @@
 module.exports = {
   development: {
     client: 'sqlite3',
+    debug: true,
     connection: {
       filename: './rok.sqlite3'
     },
