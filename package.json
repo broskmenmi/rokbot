@@ -15,7 +15,7 @@
     "discord.js": "^11.5.1",
     "discord.js-commando": "^0.10.0",
     "dotenv": "^8.1.0",
-    "knex": "^0.19.4",
+    "knex": "^0.19.5",
     "nodemon": "^1.19.2",
     "objection": "^1.6.9",
     "sqlite3": "^4.1.0"
